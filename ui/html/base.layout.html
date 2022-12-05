@@ -1,0 +1,47 @@
+<!doctype html>
+{{define "base"}}
+<html lang='en'>
+
+<head>
+    <meta charset='utf-8'>
+    <title>{{template "title" .}}</title>
+    <link rel="stylesheet" href="/static/css/main.css" />
+    <link rel="shortcut icon" href="/static/img/favicon.img" />
+</head>
+
+<body>
+    <header>
+        <!-- something stupid-->
+        <h1><a href='/'>Snippetbox</a></h1>
+    </header>
+    <nav>
+        <div>
+            <a href="/">Home</a>
+            {{if .AuthenticatedUser}}
+            <a href="/snippet/create">Create Snippet</a>
+            {{end}}
+        </div>
+        <div>
+            <a href='/user/signup'>Signup</a>
+            {{if not .AuthenticatedUser}}
+            <a href='/user/login'>Login</a>
+            {{end}}
+            {{if .AuthenticatedUser }}
+            <form action='/user/logout' method='POST'>
+                <button>Logout {{.AuthenticatedUser.Name}}</button>
+            </form>
+            {{end}}
+        </div>
+
+    </nav>
+    <section>
+        {{with .Flash}}
+        <div class='flash'>{{.}}</div>
+        {{end}}
+        {{template "body" . }}
+    </section>
+    {{template "footer" .}}
+</body>
+
+</html>
+{{end}}
